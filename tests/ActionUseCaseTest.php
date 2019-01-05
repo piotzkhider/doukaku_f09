@@ -3,13 +3,13 @@
 namespace Tests;
 
 use Acme\Matrix;
-use Acme\RotateResolver;
-use Acme\RotateUseCase;
+use Acme\ActionResolver;
+use Acme\ActionUseCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class RotateUseCaseTest extends TestCase
+class ActionUseCaseTest extends TestCase
 {
     /**
      * @var Matrix|MockObject
@@ -17,12 +17,12 @@ class RotateUseCaseTest extends TestCase
     private $matrix;
 
     /**
-     * @var RotateResolver|MockObject
+     * @var ActionResolver|MockObject
      */
     private $resolver;
 
     /**
-     * @var RotateUseCase
+     * @var ActionUseCase
      */
     private $SUT;
 
@@ -51,8 +51,8 @@ class RotateUseCaseTest extends TestCase
         parent::setUp();
 
         $this->matrix = $this->createMock(Matrix::class);
-        $this->resolver = $this->createMock(RotateResolver::class);
+        $this->resolver = $this->createMock(ActionResolver::class);
 
-        $this->SUT = new RotateUseCase($this->matrix, $this->resolver);
+        $this->SUT = new ActionUseCase($this->matrix, $this->resolver);
     }
 }

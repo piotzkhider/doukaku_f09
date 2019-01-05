@@ -3,8 +3,8 @@
 require_once 'vendor/autoload.php';
 
 use Acme\Matrix;
-use Acme\RotateResolver;
-use Acme\RotateUseCase;
+use Acme\ActionResolver;
+use Acme\ActionUseCase;
 
 /**
  * @param array[] $matrix
@@ -22,7 +22,7 @@ $matrix = new Matrix([
     [7, 8, 9],
 ]);
 
-$resolver = new RotateResolver();
+$resolver = new ActionResolver();
 
 $resolver->register('a', function (Matrix $matrix) {
     $matrixValue = $matrix->value();
@@ -44,7 +44,7 @@ $resolver->register('e', function (Matrix $matrix) {
     return new Matrix(transpose($transposed));
 });
 
-$useCase = new RotateUseCase($matrix, $resolver);
+$useCase = new ActionUseCase($matrix, $resolver);
 
 $input = trim(fgets(STDIN));
 
