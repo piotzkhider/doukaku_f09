@@ -28,7 +28,7 @@ $resolver->register('a', function (Matrix $matrix) {
     $matrixValue = $matrix->value();
 
     $infinite = new InfiniteIterator(new ArrayIterator($matrixValue[0]));
-    $limit = new LimitIterator($infinite, 1, 3);
+    $limit = new LimitIterator($infinite, 1, count($matrixValue[0]));
     $matrixValue[0] = iterator_to_array($limit);
 
     return new Matrix($matrixValue);
@@ -38,7 +38,7 @@ $resolver->register('e', function (Matrix $matrix) {
     $transposed = transpose($matrix->value());
 
     $infinite = new InfiniteIterator(new ArrayIterator($transposed[1]));
-    $limit = new LimitIterator($infinite, 2, 3);
+    $limit = new LimitIterator($infinite, 2, count($transposed[1]));
     $transposed[1] = iterator_to_array($limit);
 
     return new Matrix(transpose($transposed));
