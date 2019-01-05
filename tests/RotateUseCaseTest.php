@@ -7,6 +7,7 @@ use Acme\RotateResolver;
 use Acme\RotateUseCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class RotateUseCaseTest extends TestCase
 {
@@ -27,17 +28,22 @@ class RotateUseCaseTest extends TestCase
 
     public function testRun()
     {
+        $action = $this->createPartialMock(stdClass::class, ['__invoke']);
+        $action
+            ->expects($this->once())
+            ->method('__invoke')
+            ->with($this->matrix)
+            ->willReturn(new Matrix([]));
+
         $this->resolver
             ->expects($this->once())
             ->method('resolve')
             ->with('a')
-            ->willReturn(function (Matrix $matrix) {
-                return $matrix;
-            });
+            ->willReturn($action);
 
         $result = $this->SUT->run(['a']);
 
-        $this->assertEquals($this->matrix, $result);
+        $this->assertEquals(new Matrix([]), $result);
     }
 
     protected function setUp()
