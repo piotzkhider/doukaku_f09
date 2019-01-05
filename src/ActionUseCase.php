@@ -15,7 +15,7 @@ class ActionUseCase
     private $resolver;
 
     /**
-     * RotateUseCase constructor.
+     * ActionUseCase constructor.
      *
      * @param Matrix         $matrix
      * @param ActionResolver $resolver
