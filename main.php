@@ -3,8 +3,9 @@
 require_once 'vendor/autoload.php';
 
 use Acme\Matrix;
-use Acme\RotateResolver;
-use Acme\RotateUseCase;
+use Acme\ActionResolver;
+use Acme\ActionUseCase;
+use Acme\Output;
 
 /**
  * @param array[] $matrix
@@ -22,13 +23,13 @@ $matrix = new Matrix([
     [7, 8, 9],
 ]);
 
-$resolver = new RotateResolver();
+$resolver = new ActionResolver();
 
 $resolver->register('a', function (Matrix $matrix) {
     $matrixValue = $matrix->value();
 
     $infinite = new InfiniteIterator(new ArrayIterator($matrixValue[0]));
-    $limit = new LimitIterator($infinite, 1, 3);
+    $limit = new LimitIterator($infinite, 1, count($matrixValue[0]));
     $matrixValue[0] = iterator_to_array($limit);
 
     return new Matrix($matrixValue);
@@ -38,19 +39,29 @@ $resolver->register('e', function (Matrix $matrix) {
     $transposed = transpose($matrix->value());
 
     $infinite = new InfiniteIterator(new ArrayIterator($transposed[1]));
-    $limit = new LimitIterator($infinite, 2, 3);
+    $limit = new LimitIterator($infinite, 2, count($transposed[1]));
     $transposed[1] = iterator_to_array($limit);
 
     return new Matrix(transpose($transposed));
 });
 
-$useCase = new RotateUseCase($matrix, $resolver);
+$useCase = new ActionUseCase($matrix, $resolver);
 
 $input = trim(fgets(STDIN));
 
 $matrix = $useCase->run(str_split($input));
 
-echo $matrix, PHP_EOL;
+$output = new Output();
+
+$output->writeln($matrix, function (Matrix $matrix) {
+    $reduced = array_reduce($matrix->value(), function (array $carry, array $item) {
+        $carry[] = implode($item);
+
+        return $carry;
+    }, []);
+
+    return implode('/', $reduced);
+});
 
 //const COMMANDS = [
 //    'a' => [1, 2, 0, 3, 4, 5, 6, 7, 8],

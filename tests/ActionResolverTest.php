@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-use Acme\RotateResolver;
+use Acme\ActionResolver;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 
-class RotateResolverTest extends TestCase
+class ActionResolverTest extends TestCase
 {
     public function testResolve_登録されていないコマンド()
     {
@@ -26,7 +26,7 @@ class RotateResolverTest extends TestCase
     }
 
     /**
-     * @var RotateResolver
+     * @var ActionResolver
      */
     private $SUT;
 
@@ -34,6 +34,6 @@ class RotateResolverTest extends TestCase
     {
         parent::setUp();
 
-        $this->SUT = new RotateResolver();
+        $this->SUT = new ActionResolver();
     }
 }
