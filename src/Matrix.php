@@ -26,18 +26,4 @@ class Matrix
     {
         return $this->value;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        $reduced = array_reduce($this->value, function (array $carry, array $item) {
-            $carry[] = implode($item);
-
-            return $carry;
-        }, []);
-
-        return implode('/', $reduced);
-    }
 }

@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use Acme\Matrix;
 use Acme\ActionResolver;
 use Acme\ActionUseCase;
+use Acme\Output;
 
 /**
  * @param array[] $matrix
@@ -50,7 +51,17 @@ $input = trim(fgets(STDIN));
 
 $matrix = $useCase->run(str_split($input));
 
-echo $matrix, PHP_EOL;
+$output = new Output();
+
+$output->writeln($matrix, function (Matrix $matrix) {
+    $reduced = array_reduce($matrix->value(), function (array $carry, array $item) {
+        $carry[] = implode($item);
+
+        return $carry;
+    }, []);
+
+    return implode('/', $reduced);
+});
 
 //const COMMANDS = [
 //    'a' => [1, 2, 0, 3, 4, 5, 6, 7, 8],
