@@ -2,14 +2,14 @@
 
 namespace Tests;
 
-use Acme\Matrix;
+use Acme\ActionExecutor;
 use Acme\ActionResolver;
-use Acme\ActionUseCase;
+use Acme\Matrix;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class ActionUseCaseTest extends TestCase
+class ActionExecutorTest extends TestCase
 {
     /**
      * @var Matrix|MockObject
@@ -22,11 +22,11 @@ class ActionUseCaseTest extends TestCase
     private $resolver;
 
     /**
-     * @var ActionUseCase
+     * @var ActionExecutor
      */
     private $SUT;
 
-    public function testRun()
+    public function testExecute()
     {
         $action = $this->createPartialMock(stdClass::class, ['__invoke']);
         $action
@@ -41,7 +41,7 @@ class ActionUseCaseTest extends TestCase
             ->with('a')
             ->willReturn($action);
 
-        $result = $this->SUT->run(['a']);
+        $result = $this->SUT->execute(['a']);
 
         $this->assertEquals(new Matrix([]), $result);
     }
@@ -53,6 +53,6 @@ class ActionUseCaseTest extends TestCase
         $this->matrix = $this->createMock(Matrix::class);
         $this->resolver = $this->createMock(ActionResolver::class);
 
-        $this->SUT = new ActionUseCase($this->matrix, $this->resolver);
+        $this->SUT = new ActionExecutor($this->matrix, $this->resolver);
     }
 }

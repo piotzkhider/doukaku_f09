@@ -2,9 +2,9 @@
 
 require_once 'vendor/autoload.php';
 
-use Acme\Matrix;
+use Acme\ActionExecutor;
 use Acme\ActionResolver;
-use Acme\ActionUseCase;
+use Acme\Matrix;
 use Acme\Output;
 
 /**
@@ -45,11 +45,11 @@ $resolver->register('e', function (Matrix $matrix) {
     return new Matrix(transpose($transposed));
 });
 
-$useCase = new ActionUseCase($matrix, $resolver);
+$executor = new ActionExecutor($matrix, $resolver);
 
 $input = trim(fgets(STDIN));
 
-$matrix = $useCase->run(str_split($input));
+$matrix = $executor->execute(str_split($input));
 
 $output = new Output();
 
