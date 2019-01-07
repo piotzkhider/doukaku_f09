@@ -2,7 +2,7 @@
 
 namespace Acme;
 
-class ActionUseCase
+class ActionExecutor
 {
     /**
      * @var Matrix
@@ -15,7 +15,7 @@ class ActionUseCase
     private $resolver;
 
     /**
-     * ActionUseCase constructor.
+     * ActionExecutor constructor.
      *
      * @param Matrix         $matrix
      * @param ActionResolver $resolver
@@ -31,7 +31,7 @@ class ActionUseCase
      *
      * @return Matrix
      */
-    public function run(array $ids): Matrix
+    public function execute(array $ids): Matrix
     {
         return array_reduce($ids, function (Matrix $matrix, string $id) {
             $action = $this->resolver->resolve($id);
